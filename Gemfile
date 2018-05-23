@@ -34,6 +34,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'simplecov'
   gem 'faker'
+  gem 'rspec-rails', '~> 3.7'
 end
 
 group :development do
