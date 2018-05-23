@@ -5,5 +5,13 @@ class AuthorsController < ApplicationController
   end
 
   def show
+    res = AuthorSerializer.new(Author.find_by!(id: authors_params[:id]))
+    render json: res.serializable_hash, status: :ok
+  end
+
+  private
+
+  def authors_params
+    params.permit(:id)
   end
 end
