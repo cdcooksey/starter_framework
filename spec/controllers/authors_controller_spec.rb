@@ -13,7 +13,7 @@ RSpec.describe AuthorsController, type: :controller do
     let(:authors) { create_list(:author, 3) }
     let(:expected_payload) { JSON.parse(AuthorSerializer.new(authors).serialized_json) }
 
-    it { expect(response).to have_http_status(200) }
+    it { expect(response).to have_http_status :ok }
 
     it 'returns AuthorSerializer' do
       expect(actual).to eq(expected_payload)
@@ -22,7 +22,7 @@ RSpec.describe AuthorsController, type: :controller do
     context 'when no authors are found' do
       let(:authors) { [] }
 
-      it { expect(response).to have_http_status(200) }
+      it { expect(response).to have_http_status :ok }
       it 'returns empty array' do
         expect(actual).to eq(expected_payload)
       end
@@ -35,10 +35,14 @@ RSpec.describe AuthorsController, type: :controller do
     let(:author) { create(:author) }
     let(:expected_payload) { JSON.parse(AuthorSerializer.new(author).serialized_json) }
 
-    it { expect(response).to have_http_status(200) }
+    it { expect(response).to have_http_status :ok }
     it 'returns AuthorSerializer' do
       expect(actual).to eq(expected_payload)
     end
 
+    context 'when author is not found' do
+      let(:author) { build(:author) }
+      it { expect(response).to have_http_status_code :not_found }
+    end
   end
 end
