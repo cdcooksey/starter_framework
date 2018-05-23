@@ -5,18 +5,20 @@ RSpec.describe AuthorsController, type: :controller do
   let(:actual) { JSON.parse(response.body) }
 
   describe 'GET /authors' do
-    let(:authors) { create_list(:author, 3) }
-    let(:expected_payload) { JSON.parse(AuthorSerializer.new(authors).serialized_json) }
-
     before do
       authors
       get :index
     end
+
+    let(:authors) { create_list(:author, 3) }
+    let(:expected_payload) { JSON.parse(AuthorSerializer.new(authors).serialized_json) }
+
     it { expect(response).to have_http_status(200) }
 
     it 'returns AuthorSerializer' do
       expect(actual).to eq(expected_payload)
     end
+
     context 'when no authors are found' do
       let(:authors) { [] }
 
@@ -25,5 +27,18 @@ RSpec.describe AuthorsController, type: :controller do
         expect(actual).to eq(expected_payload)
       end
     end
+  end
+
+  describe 'GET /authors/:id' do
+    before { get :show, id: author.id }
+
+    let(:author) { create(:author) }
+    let(:expected_payload) { JSON.parse(AuthorSerializer.new(author).serialized_json) }
+
+    it { expect(response).to have_http_status(200) }
+    it 'returns AuthorSerializer' do
+      expect(actual).to eq(expected_payload)
+    end
+
   end
 end
