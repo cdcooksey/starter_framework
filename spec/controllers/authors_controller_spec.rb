@@ -30,9 +30,11 @@ RSpec.describe AuthorsController, type: :controller do
   end
 
   describe 'GET /authors/:id' do
-    before { get :show, { params: { id: author.id } } }
+    before { get :show, { params: { id: author_id } } }
 
     let(:author) { create(:author) }
+    let(:author_id) { author.id }
+
     let(:expected_payload) { JSON.parse(AuthorSerializer.new(author).serialized_json) }
 
     it { expect(response).to have_http_status :ok }
@@ -41,8 +43,14 @@ RSpec.describe AuthorsController, type: :controller do
     end
 
     context 'when author is not found' do
-      let(:author) { build(:author) }
-      it { expect(response).to have_http_status_code :not_found }
+      let(:author_id) { rand(111.9999) }
+      let(:expected_payload) { { message: "Couldn't find Author" }.as_json }
+
+      it { expect(response).to have_http_status :not_found }
+      it 'should return error message' do
+        expect(actual).to eq(expected_payload)
+      end
     end
   end
+
 end
