@@ -17,5 +17,13 @@ RSpec.describe AuthorsController, type: :controller do
     it 'returns AuthorSerializer' do
       expect(actual).to eq(expected_payload)
     end
+    context 'when no authors are found' do
+      let(:authors) { [] }
+
+      it { expect(response).to have_http_status(200) }
+      it 'returns empty array' do
+        expect(actual).to eq(expected_payload)
+      end
+    end
   end
 end
