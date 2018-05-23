@@ -30,7 +30,7 @@ RSpec.describe AuthorsController, type: :controller do
   end
 
   describe 'GET /authors/:id' do
-    before { get :show, id: author.id }
+    before { get :show, { params: { id: author.id } } }
 
     let(:author) { create(:author) }
     let(:expected_payload) { JSON.parse(AuthorSerializer.new(author).serialized_json) }
