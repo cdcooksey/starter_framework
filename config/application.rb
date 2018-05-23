@@ -33,8 +33,8 @@ module StarterFramework
     config.api_only = true
 
     # Use UUID rather than Integer .id columns
-    config.generators do |g|
-      g.orm :active_record, primary_key_type: :uuid
-    end
+    #config.generators do |g|
+    #  g.orm :active_record, primary_key_type: :uuid
+    #end
   end
 end
