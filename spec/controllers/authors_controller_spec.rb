@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe AuthorsController, type: :controller do
 
-  let(:authors) { create_list(:author, 3) }
   let(:actual) { JSON.parse(response.body) }
 
   describe 'GET /authors' do
+    let(:authors) { create_list(:author, 3) }
     let(:expected_payload) { JSON.parse(AuthorSerializer.new(authors).serialized_json) }
 
     before do
