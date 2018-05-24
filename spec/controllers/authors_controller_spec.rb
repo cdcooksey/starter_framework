@@ -43,7 +43,7 @@ RSpec.describe AuthorsController, type: :controller do
     end
 
     context 'when author is not found' do
-      let(:author_id) { rand(111.9999) }
+      let(:author_id) { rand(111..9999) }
       let(:expected_payload) { { message: "Couldn't find Author" }.as_json }
 
       it { expect(response).to have_http_status :not_found }

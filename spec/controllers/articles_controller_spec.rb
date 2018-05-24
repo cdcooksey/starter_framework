@@ -38,7 +38,17 @@ RSpec.describe ArticlesController, type: :controller do
     let(:expected_payload) { JSON.parse(ArticleSerializer.new(article).serialized_json) }
 
     it { expect(response).to have_http_status :ok }
-
     it { is_expected.to eq(expected_payload) }
+
+    context 'when article is not found' do
+      let(:article_id) { rand(11..9999) }
+      let(:expected_payload) { { message: "Couldn't find Article" }.as_json }
+
+      it { expect(response).to have_http_status :not_found }
+      it 'should return error message' do
+        expect(actual).to eq(expected_payload)
+      end
+    end
   end
+
 end
