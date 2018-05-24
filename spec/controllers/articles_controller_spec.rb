@@ -18,6 +18,15 @@ RSpec.describe ArticlesController, type: :controller do
     it 'returns ArticleSerializer' do
       expect(actual).to eq(expected_payload)
     end
+    context 'when no articles are found' do
+      let(:articles) { [] }
+
+      it { expect(response).to have_http_status :ok }
+      it 'returns empty array' do
+        expect(actual).to eq(expected_payload)
+      end
+ 
+    end
   end
 
 end
