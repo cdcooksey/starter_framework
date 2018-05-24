@@ -25,8 +25,20 @@ RSpec.describe ArticlesController, type: :controller do
       it 'returns empty array' do
         expect(actual).to eq(expected_payload)
       end
- 
     end
   end
 
+  describe 'GET /articles/:id' do
+    subject { actual }
+    before { get :show, params: { id: article_id } }
+
+    let(:article) { create(:article) }
+    let(:article_id) { article.id }
+
+    let(:expected_payload) { JSON.parse(ArticleSerializer.new(article).serialized_json) }
+
+    it { expect(response).to have_http_status :ok }
+
+    it { is_expected.to eq(expected_payload) }
+  end
 end
